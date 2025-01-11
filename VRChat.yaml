@@ -1,0 +1,4 @@
+payload: 
+  - IP-CIDR,216.120.180.0/24
+  - DOMAIN-SUFFIX,vrchat.cloud
+  - DOMAIN-SUFFIX,vrchat.com
