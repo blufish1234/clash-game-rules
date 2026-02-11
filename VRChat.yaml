@@ -3,3 +3,6 @@ payload:
   - IP-ASN,199524
   - DOMAIN-SUFFIX,vrchat.cloud
   - DOMAIN-SUFFIX,vrchat.com
+  - DOMAIN-SUFFIX,photonengine.io
+  - DOMAIN-SUFFIX,exitgames.com
+  - DOMAIN-SUFFIX,amplitude.com
