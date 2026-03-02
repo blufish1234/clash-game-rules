@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "rules": [
+    {
+      "domain_suffix": [
+        "gryphline.com"
+      ],
+      "domain": [
+        "beyond.hg-cdn.com"
+      ]
+    }
+  ]
+}
