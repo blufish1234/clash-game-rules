@@ -68,11 +68,18 @@ Rule sets in sing-box source format are available in the [`sing-box/`](sing-box/
         "tag": "vrchat",
         "format": "source",
         "url": "https://raw.githubusercontent.com/blufish1234/clash-game-rules/main/sing-box/VRChat.json"
+      },
+      {
+        "type": "remote",
+        "tag": "discord",
+        "format": "source",
+        "url": "https://raw.githubusercontent.com/blufish1234/clash-game-rules/main/sing-box/discord.json"
       }
     ],
     "rules": [
       { "rule_set": "gryphline", "outbound": "<outbound>" },
-      { "rule_set": "vrchat",    "outbound": "<outbound>" }
+      { "rule_set": "vrchat",    "outbound": "<outbound>" },
+      { "rule_set": "discord",   "outbound": "<outbound>" }
     ]
   }
 }
