@@ -1,13 +1,24 @@
-# Clash 遊戲規則集 🎮
+# clash-game-rules
 
-一組為 Clash 及相容客戶端精心配置的規則集，專為各類遊戲與服務進行優化。
+A collection of rule sets for [Mihomo](https://github.com/MetaCubeX/mihomo) (formerly Clash Meta) and compatible clients (e.g. Clash Verge Rev), tailored for games and specific services. sing-box equivalents are also provided.
 
-## 🛠️ 如何使用
+---
 
-要將這些規則應用於您的 Clash 配置，請將其新增至 `rule-providers` 部分。
+## 📋 Rule Sets
 
-### 1. 定義規則提供者 (Rule Providers)
-在您的配置文件中添加以下內容：
+| Icon | Name | File | Description |
+| :---: | :--- | :--- | :--- |
+| <img src="icons/gryphline.png" width="28"> | **Gryphline** | [`Gryphline.yaml`](Gryphline.yaml) | Covers Gryphline services and games (e.g. Arknights: Endfield). |
+| <img src="icons/vrchat.png" width="28"> | **VRChat** | [`VRChat.yaml`](VRChat.yaml) | Domains, CDN IPs, and ASN for VRChat and its dependencies (Photon, G-Core Labs). |
+| — | **Discord** | [`discord.yaml`](discord.yaml) | Discord domains and precise voice server IP ranges (Cloudflare + i3D.net). |
+
+---
+
+## 🚀 Usage
+
+### Clash / Clash Meta
+
+Add entries to `rule-providers` in your config, then reference them in `rules`.
 
 ```yaml
 rule-providers:
@@ -24,32 +35,23 @@ rule-providers:
     url: "https://raw.githubusercontent.com/blufish1234/clash-game-rules/main/VRChat.yaml"
     path: ./ruleset/vrchat.yaml
     interval: 86400
-```
 
-### 2. 應用規則
-在 `rules` 部分使用這些提供者：
+  discord:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blufish1234/clash-game-rules/main/discord.yaml"
+    path: ./ruleset/discord.yaml
+    interval: 86400
 
-```yaml
 rules:
-  - RULE-SET,gryphline,🎮 遊戲流量
-  - RULE-SET,vrchat,🌐 VRChat
-  # ... 其他規則
+  - RULE-SET,gryphline,<proxy-group>
+  - RULE-SET,vrchat,<proxy-group>
+  - RULE-SET,discord,<proxy-group>
 ```
 
-## 📦 已提供的規則
+### sing-box
 
-| 圖標 | 名稱 | 描述 | 規則集類型 |
-| :---: | :--- | :--- | :--- |
-| <img src="icons/gryphline.png" width="32"> | **Gryphline** | 適用於 Gryphline 服務及遊戲（例如：明日方舟：終末地）。 | `classical` |
-| <img src="icons/vrchat.png" width="32"> | **VRChat** | 為 VRChat 實例、資源載入優化的路由規則。 | `classical` |
-
-## 📦 sing-box 規則集
-
-本專案也提供 sing-box 格式的規則集，存放在 `sing-box/` 目錄中。
-
-### 如何使用
-
-在 sing-box 配置中添加遠端規則集：
+Rule sets in sing-box source format are available in the [`sing-box/`](sing-box/) directory.
 
 ```json
 {
@@ -69,23 +71,34 @@ rules:
       }
     ],
     "rules": [
-      {
-        "rule_set": "gryphline",
-        "outbound": "遊戲流量"
-      },
-      {
-        "rule_set": "vrchat",
-        "outbound": "VRChat"
-      }
+      { "rule_set": "gryphline", "outbound": "<outbound>" },
+      { "rule_set": "vrchat",    "outbound": "<outbound>" }
     ]
   }
 }
 ```
 
-> **注意：** sing-box 的 Headless Rule 不支援 `IP-ASN`，因此 VRChat 規則集中的 `IP-ASN,199524`（G-Core Labs）已轉換為對應的 IP-CIDR 前綴。
+> **Note:** sing-box Headless Rules do not support `IP-ASN`, so the `IP-ASN,199524` entry in the VRChat rule set has been expanded to its corresponding IP-CIDR prefixes in the sing-box version.
 
-## 🎨 資源資訊
-每個服務的圖標都存放在 `icons/` 目錄中。您可以在 Clash 面板（如 Yacd 或 Clash Verge）中通過指向該圖標的 URL 來使用它們。
+---
 
-## 🤝 貢獻
-如果您想添加更多遊戲規則或改進現有規則，歡迎提交 Issue 或 Pull Request。
+## 📁 Repository Structure
+
+```
+clash-game-rules/
+├── Gryphline.yaml        # Clash rule set — Gryphline
+├── VRChat.yaml           # Clash rule set — VRChat
+├── discord.yaml          # Clash rule set — Discord (domains + voice IPs)
+├── icons/
+│   ├── gryphline.png
+│   └── vrchat.png
+└── sing-box/
+    ├── Gryphline.json    # sing-box rule set — Gryphline
+    └── VRChat.json       # sing-box rule set — VRChat
+```
+
+---
+
+## 🤝 Contributing
+
+Pull requests are welcome. If you'd like to add rules for a new service or fix existing entries, please open an issue or PR.
