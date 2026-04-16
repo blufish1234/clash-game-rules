@@ -11,6 +11,7 @@ A collection of rule sets for [Mihomo](https://github.com/MetaCubeX/mihomo) (for
 | <img src="icons/gryphline.png" width="28"> | **Gryphline** | [`Gryphline.yaml`](Gryphline.yaml) | Covers Gryphline services and games (e.g. Arknights: Endfield). |
 | <img src="icons/vrchat.png" width="28"> | **VRChat** | [`VRChat.yaml`](VRChat.yaml) | Domains, CDN IPs, and ASN for VRChat and its dependencies (Photon, G-Core Labs). |
 | — | **Discord** | [`discord.yaml`](discord.yaml) | Discord domains and precise voice server IP ranges (Cloudflare + i3D.net). |
+| — | **Claude** | [`claude.yaml`](claude.yaml) | Anthropic/Claude domains, CDN, auth, telemetry, and ASN/IP ranges. |
 
 ---
 
@@ -43,10 +44,18 @@ rule-providers:
     path: ./ruleset/discord.yaml
     interval: 86400
 
+  claude:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blufish1234/clash-game-rules/main/claude.yaml"
+    path: ./ruleset/claude.yaml
+    interval: 86400
+
 rules:
   - RULE-SET,gryphline,<proxy-group>
   - RULE-SET,vrchat,<proxy-group>
   - RULE-SET,discord,<proxy-group>
+  - RULE-SET,claude,<proxy-group>
 ```
 
 ### sing-box
@@ -74,18 +83,25 @@ Rule sets in sing-box source format are available in the [`sing-box/`](sing-box/
         "tag": "discord",
         "format": "source",
         "url": "https://raw.githubusercontent.com/blufish1234/clash-game-rules/main/sing-box/discord.json"
+      },
+      {
+        "type": "remote",
+        "tag": "claude",
+        "format": "source",
+        "url": "https://raw.githubusercontent.com/blufish1234/clash-game-rules/main/sing-box/claude.json"
       }
     ],
     "rules": [
       { "rule_set": "gryphline", "outbound": "<outbound>" },
       { "rule_set": "vrchat",    "outbound": "<outbound>" },
-      { "rule_set": "discord",   "outbound": "<outbound>" }
+      { "rule_set": "discord",   "outbound": "<outbound>" },
+      { "rule_set": "claude",    "outbound": "<outbound>" }
     ]
   }
 }
 ```
 
-> **Note:** sing-box Headless Rules do not support `IP-ASN`, so the `IP-ASN,199524` entry in the VRChat rule set has been expanded to its corresponding IP-CIDR prefixes in the sing-box version.
+> **Note:** sing-box Headless Rules do not support `IP-ASN`. The `IP-ASN` entries in VRChat (`199524`) and Claude (`399358`) have been expanded to their corresponding IP-CIDR prefixes in the sing-box versions.
 
 ---
 
@@ -96,12 +112,15 @@ clash-game-rules/
 ├── Gryphline.yaml        # Clash rule set — Gryphline
 ├── VRChat.yaml           # Clash rule set — VRChat
 ├── discord.yaml          # Clash rule set — Discord (domains + voice IPs)
+├── claude.yaml           # Clash rule set — Claude / Anthropic
 ├── icons/
 │   ├── gryphline.png
 │   └── vrchat.png
 └── sing-box/
     ├── Gryphline.json    # sing-box rule set — Gryphline
-    └── VRChat.json       # sing-box rule set — VRChat
+    ├── VRChat.json       # sing-box rule set — VRChat
+    ├── discord.json      # sing-box rule set — Discord
+    └── claude.json       # sing-box rule set — Claude / Anthropic
 ```
 
 ---
